@@ -1,3 +1,4 @@
+// Work Motherfucker PLEASE!!
 #include <avr/io.h>
 #include <avr/interrupt.h>
 #include <uart.h>
@@ -301,7 +302,7 @@ ISR (TIMER0_COMPA_vect)
   }
 }
 
-/*		Execute task1 every 120ms. */
+/*		Execute task-1 every 120ms. */
 int main(void)
 {
 	// DEBUGGING:  on the external LEDs at Port D.7,5
