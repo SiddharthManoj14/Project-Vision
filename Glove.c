@@ -472,7 +472,7 @@ void task1(void)
 		   		PORTD ^= 0x80; 	// DEBUGGING: Toggle LED at Port D.7 to debug
 		  		if (move_en == 1) {
 					cli();
-		   			calibrate();	// Set reference accel
+		   			calibrate();	// Set reference acceleration
 					sei();
 				}
 		   	}
@@ -481,7 +481,7 @@ void task1(void)
 				scroll_en ^= 1;	// Toggle the flag for scroll enable
 				if (scroll_en == 1) {
 					cli();
-		   			calibrate();	// Set reference accel
+		   			calibrate();	// Set reference acceleration
 					sei();
 				}
 			}
