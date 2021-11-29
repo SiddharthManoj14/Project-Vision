@@ -35,7 +35,7 @@ unsigned char msg_C5_release;
 
 // Debouncing parameters
 volatile unsigned char tasktime;	// Timeout counter
-unsigned char PushState;			// State machine for click buttons
+unsigned char PushState;		// State machine for click buttons
 unsigned char PushState_switch;		// State machine for move enable/disable button
 unsigned char butnumPressed;		// Stores which buttons were pressed for debounce
 unsigned char currentButton;		// Which buttons are just pressed //the three task subroutines
@@ -52,7 +52,7 @@ volatile unsigned char click;	// Information for mouse button clicks
 
 // Acceleration parameters
 #define accel_timeout 2			// Timeout value for the state machine
-char move_en;					// Flag for move enable
+char move_en;				// Flag for move enable
 volatile unsigned char aX;		// Register for ADC sample of x axis tilt
 volatile unsigned char aY;		// Register for ADC sample of y axis tilt
 volatile unsigned char aZ		// Register for ADC sample of z axis tilt
@@ -93,15 +93,15 @@ FILE uart_str = FDEV_SETUP_STREAM(uart_putchar, uart_getchar, _FDEV_SETUP_RW);
 void USART_txByte(unsigned char data)
 {
 	while (!(UCSR1A & (1 << UDRE1)));	// Wait until UDR is empty
-	UDR1 = data;	// Load data into UDR
+	UDR1 = data;				// Load data into UDR
 }
 
 /* Transmit a packet to the transceiver:
  *		Load 6 bytes onto UDR in a row. */
 void tx_packet( uint8_t x, uint8_t y, uint8_t wh, uint8_t cl )
 {
-	USART_txByte(SYNC); // Send SYNC byte
-	USART_txByte(ADDR); // Send address to recognize correct receiver
+	USART_txByte(SYNC);     // Send SYNC byte
+	USART_txByte(ADDR);     // Send address to recognize correct receiver
 	USART_txByte(x); 	// Send X Axis of the mouse
 	USART_txByte(y); 	// Send Y Axis of the mouse
 	USART_txByte(wh); 	// Send Scroll position
@@ -117,29 +117,29 @@ void readAccel(void)
 	{
 		// Read z component (as x axis)
 		ADMUX = (1<<ADLAR)|(1<<REFS0);		// Select ADC channel0 (z component)
-		ADCSRA |= (1 << ADSC);				// Enable ADC
+		ADCSRA |= (1 << ADSC);			// Enable ADC
 		while (ADCSRA & (1 << ADSC));		// Wait until ADC Data register is full
-		aX = ADCH;							// Read high byte of ADC Data Register
+		aX = ADCH;				// Read high byte of ADC Data Register
 
 		// Read y component (as y axis)
 		ADMUX = (1<<ADLAR)|(1<<REFS0)+1;	// Select ADC channel1 (y component)
-		ADCSRA |= (1 << ADSC);				// Enable ADC
+		ADCSRA |= (1 << ADSC);			// Enable ADC
 		while (ADCSRA & (1 << ADSC));		// Wait until ADC Data register is full
-		aY = ADCH;							// Read high byte of ADC Data Register
+		aY = ADCH;				// Read high byte of ADC Data Register
     }
 	else
 	{
 		// Read y component (as y axis)
 		ADMUX = (1<<ADLAR)|(1<<REFS0)+1;	// Select ADC channel1 (y component)
-		ADCSRA |= (1 << ADSC);				// Enable ADC
+		ADCSRA |= (1 << ADSC);			// Enable ADC
 		while (ADCSRA & (1 << ADSC));		// Wait until ADC Data register is full
-		aY = ADCH;							// Read high byte of ADC Data Register
+		aY = ADCH;				// Read high byte of ADC Data Register
 
 		// Read x component (as x axis)
 		ADMUX = (1<<ADLAR)|(1<<REFS0)+2;	// Select ADC channel2 (x component)
-		ADCSRA |= (1 << ADSC);				// Enable ADC
+		ADCSRA |= (1 << ADSC);			// Enable ADC
 		while (ADCSRA & (1 << ADSC));		// Wait until ADC Data register is full
-		aX = ADCH;							// Read high byte of ADC Data Register
+		aX = ADCH;				// Read high byte of ADC Data Register
 	}
 }
 
@@ -152,19 +152,19 @@ void calibrate(void)
   while (cnt < 1024)
   {
 	ADMUX = (1<<ADLAR)|(1<<REFS0);		// Select ADC channel0
-	ADCSRA |= (1 << ADSC);				// Enable ADC
+	ADCSRA |= (1 << ADSC);			// Enable ADC
 	while (ADCSRA & (1 << ADSC));		// Wait until ADC Data register is full
-	aZ = ADCH;							// Read high byte of ADC Data Register
+	aZ = ADCH;				// Read high byte of ADC Data Register
 
 	ADMUX = (1<<ADLAR)|(1<<REFS0)+1;	// Select ADC channel1
-	ADCSRA |= (1 << ADSC);				// Enable ADC
+	ADCSRA |= (1 << ADSC);			// Enable ADC
 	while (ADCSRA & (1 << ADSC));		// Wait until ADC Data register is full
-	aY = ADCH;							// Read high byte of ADC Data Register
+	aY = ADCH;				// Read high byte of ADC Data Register
 
 	ADMUX = (1<<ADLAR)|(1<<REFS0)+2;	// Select ADC channel2
-	ADCSRA |= (1 << ADSC);				// Enable ADC
+	ADCSRA |= (1 << ADSC);			// Enable ADC
 	while (ADCSRA & (1 << ADSC));		// Wait until ADC Data register is full
-	aX = ADCH;							// Read high byte of ADC Data Register
+	aX = ADCH;				// Read high byte of ADC Data Register
 
 	aX_ref = aX_ref + aX;
 	aY_ref = aY_ref + aY;
@@ -195,7 +195,7 @@ void USART_init(void)
 {
 	// Baud rate setting
 	UBRR1L = (uint8_t) UBRRVAL;				// Low byte
-	UBRR1H = (uint8_t) (UBRRVAL>>8);		// High byte
+	UBRR1H = (uint8_t) (UBRRVAL>>8);		        // High byte
 	// Enable transimission
 	UCSR1B = (1<<TXEN1);
 	// USART setting: SPI mode, odd parity check enabeld, 2-bit stop bits, and 9-bit data size
@@ -235,12 +235,12 @@ int main(void)
 
 	// Set up timer 0 as 4 milliseconds timebase
   	TIMSK0= (1<<OCIE0A);	// Turn on timer 0 cmp match ISR
-  	OCR0A = 249;  			// Set the compare register to 250 time ticks
-  	TCCR0B= 4; 				// Set prescalar to divide by 256
+  	OCR0A = 249;  		// Set the compare register to 250 time ticks
+  	TCCR0B= 4; 		// Set prescalar to divide by 256
   	TCCR0A= (1<<WGM01) ;	// Turn on clear-on-match
 
 	// ADC setup
-  	ADMUX = (1<<ADLAR)|(1<<REFS0);	// 1. Read ADCH (High byte of ADC data register) 2. Select VCC as voltage reference
+  	ADMUX = (1<<ADLAR)|(1<<REFS0);		// 1. Read ADCH (High byte of ADC data register) 2. Select VCC as voltage reference
   	ADCSRA = (1<<ADEN)|(1<<ADSC) + 7;	// Enable the ADC, start conversion, and select 128 as ADC prescalar
 	// Port A is an input for ADC
 	DDRA=0x00;
@@ -276,7 +276,7 @@ int main(void)
 
 void task1(void)
 {
-  tasktime = timeout;     // Reset the task timer
+  tasktime = timeout;   	// Reset the task timer
   currentButton = PINC;		// Read currently pressed buttons
   currentSwitch = PINB;		// Read currently toggled switches
   switch (PushState)
@@ -318,7 +318,7 @@ void task1(void)
 		   		}
         	}
 		}
-		// Otherwise, it is not a valid press
+		// Otherwise, it is not a valid press action
         else PushState=NoPush;
         break;
      case Pushed:
