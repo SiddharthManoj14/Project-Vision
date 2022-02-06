@@ -4,6 +4,6 @@ The glove is something that can be used as a wearable mouse and can control the 
 
 Future plans include to make the glove accept and send feedback.
 
-<b>For mimicing resistance we plan on using an array of DC motors attached to each finger.
+<b>For mimicing resistance we plan on using an array of DC motors attached to each finger.</b>
   
   Circuit diagram and code will be updated soon.
